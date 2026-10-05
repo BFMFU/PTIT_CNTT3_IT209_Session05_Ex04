@@ -1,7 +1,7 @@
-// Version 1.0.0 - Production Code
+// Version 1.0.1 - Production Code (Hotfixed)
 function getUserData(userId, token) {
-    // SECURITY BUG: Logging sensitive user data & auth token in plain text
-    console.log(`[DEBUG] Fetching profile for user: ${userId}, token: ${token}`);
+    // FIX: Removed token logging to prevent sensitive data leak in log output
+    console.log(`[INFO] Fetching profile for user: ${userId}`);
     
     return {
         id: userId,
