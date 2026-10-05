@@ -10,7 +10,7 @@
 
 ---
 
-## 📐 1. Mô Hình Quy Trình Hotfix Trong Gitflow
+##  1. Mô Hình Quy Trình Hotfix Trong Gitflow
 
 Trong mô hình Gitflow chuẩn:
 1. **`main`**: Luôn đại diện cho mã nguồn ổn định đang chạy trên môi trường Production. Mỗi commit trên `main` tương ứng với một phiên bản chính thức và được đánh Tag (e.g., `v1.0.0`, `v1.0.1`).
