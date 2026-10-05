@@ -1,6 +1,6 @@
 # Báo Cáo Bài 4: Mô Phỏng Quy Trình Hotfix & Gitflow Thực Tế
 
-## 📌 Thông Tin Bài Tập
+##  Thông Tin Bài Tập
 - **Môn học**: IT209 - Quản lý phiên bản mã nguồn với Git
 - **Đường dẫn bài nộp**: `homework/session_05/ex4/`
 - **Mục tiêu**:
@@ -19,7 +19,7 @@ Trong mô hình Gitflow chuẩn:
    - Gộp vào `main` + Đánh Tag phát hành bản vá nóng mới (`v1.0.1`).
    - Gộp ngược lại vào `develop` để đảm bảo code phát triển tương lai kế thừa bản sửa lỗi này.
 
-### 🎨 Sơ đồ luồng xử lý (ASCII Diagram)
+###  Sơ đồ luồng xử lý (ASCII Diagram)
 
 ```text
 (v1.0.0) 
@@ -34,9 +34,9 @@ Trong mô hình Gitflow chuẩn:
 
 ---
 
-## 🛠️ 2. Các Bước Thực Hiện Chi Tiết (Step-by-Step)
+##  2. Các Bước Thực Hiện Chi Tiết (Step-by-Step)
 
-### 🔴 Bước 1: Khởi tạo hệ thống Production v1.0.0 trên nhánh `main`
+###  Bước 1: Khởi tạo hệ thống Production v1.0.0 trên nhánh `main`
 
 1. Khởi tạo Git repository và cấu hình nhánh `main`:
    ```bash
@@ -68,8 +68,7 @@ Trong mô hình Gitflow chuẩn:
 
 ---
 
-### 🟡 Bước 2: Khởi tạo nhánh `develop` và phát triển tính năng dở dang (v1.1.0)
-
+###  Bước 2: Khởi tạo nhánh `develop` và phát triển tính năng dở dang (v1.1.0)
 1. Tách nhánh `develop` từ `main`:
    ```bash
    git checkout -b develop
@@ -88,7 +87,7 @@ Trong mô hình Gitflow chuẩn:
 
 ---
 
-### 🚨 Bước 3: Phát hiện sự cố khẩn cấp & Tách nhánh `hotfix/v1.0.1`
+### Bước 3: Phát hiện sự cố khẩn cấp & Tách nhánh `hotfix/v1.0.1`
 
 **Bối cảnh**: Hệ thống Production (`main` v1.0.0) phát hiện rò rỉ token người dùng trong file log. Nhánh `develop` đang phát triển dở dang 2 tính năng mới nên không thể triển khai (deploy) ngay lên Production được.
 
@@ -100,7 +99,7 @@ git checkout -b hotfix/v1.0.1
 
 ---
 
-### 🛠️ Bước 4: Sửa lỗi khẩn cấp trên nhánh Hotfix
+###  Bước 4: Sửa lỗi khẩn cấp trên nhánh Hotfix
 
 Cập nhật tệp `app.js` trên nhánh `hotfix/v1.0.1` để loại bỏ log token nhạy cảm:
 ```javascript
@@ -127,7 +126,7 @@ git commit -m "fix(security): sanitize log data to prevent credential leak"
 
 ---
 
-### 🟢 Bước 5: Gộp Hotfix vào `main` & Đánh Tag Release `v1.0.1`
+###  Bước 5: Gộp Hotfix vào `main` & Đánh Tag Release `v1.0.1`
 
 Chuyển về `main`, gộp nhánh `hotfix/v1.0.1` và tạo Tag phát hành mới:
 ```bash
@@ -138,7 +137,7 @@ git tag -a v1.0.1 -m "Release Hotfix 1.0.1"
 
 ---
 
-### 🔄 Bước 6: Gộp ngược Hotfix vào nhánh `develop` (Đồng bộ bản vá)
+###  Bước 6: Gộp ngược Hotfix vào nhánh `develop` (Đồng bộ bản vá)
 
 Để tránh tình trạng trôi lỗi (phiên bản v1.1.0 ra mắt tương lai lại bị tái diễn lỗi rò rỉ token này), bắt buộc phải gộp nhánh hotfix vào `develop`:
 ```bash
@@ -148,7 +147,7 @@ git merge --no-ff hotfix/v1.0.1 -m "merge: hotfix/v1.0.1 into develop"
 
 ---
 
-### 🧹 Bước 7: Dọn dẹp nhánh Hotfix cục bộ
+### Bước 7: Dọn dẹp nhánh Hotfix cục bộ
 
 Sau khi đã hoàn tất gộp vào cả `main` và `develop`, xóa nhánh `hotfix/v1.0.1`:
 ```bash
@@ -157,23 +156,23 @@ git branch -d hotfix/v1.0.1
 
 ---
 
-## 🔍 3. Kiểm Tra & Kết Quả Thực Tế
+##  3. Kiểm Tra & Kết Quả Thực Tế
 
-### 1️⃣ Danh sách nhánh hiện có (`git branch -a`)
+### 1️ Danh sách nhánh hiện có (`git branch -a`)
 ```text
 * develop
   main
 ```
 *(Nhánh `hotfix/v1.0.1` đã được xóa sạch sẽ)*
 
-### 2️⃣ Danh sách Tags (`git tag -l -n`)
+### 2️ Danh sách Tags (`git tag -l -n`)
 ```text
 v1.0.0          Release version 1.0.0
 v1.0.1          Release Hotfix 1.0.1
 ```
 *(Tag `v1.0.1` trỏ đúng vào commit merge hotfix trên nhánh `main`)*
 
-### 3️⃣ Sơ đồ lịch sử commit (`git log --graph --oneline --all`)
+### 3️ Sơ đồ lịch sử commit (`git log --graph --oneline --all`)
 
 ```text
 *   400ce06 (HEAD -> develop) merge: hotfix/v1.0.1 into develop
@@ -190,7 +189,7 @@ v1.0.1          Release Hotfix 1.0.1
 
 ---
 
-## 💡 4. Tổng Kết & Bài Học Rút Ra
+##  4. Tổng Kết & Bài Học Rút Ra
 
 1. **Tại sao Hotfix phải tách ra từ `main` thay vì `develop`?**
    - Nhánh `main` chứa mã nguồn ổn định đang chạy trên Production (v1.0.0). Nhánh `develop` chứa các tính năng dở dang chưa qua kiểm thử đầy đủ. Nếu tách từ `develop`, bản sửa lỗi sẽ bị dính kèm các tính năng dở dang này, không thể deploy ngay được.
